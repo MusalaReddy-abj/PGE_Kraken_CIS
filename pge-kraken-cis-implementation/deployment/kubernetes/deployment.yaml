@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pge-kraken-cis-implementation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pge-kraken-cis-implementation
+  template:
+    metadata:
+      labels:
+        app: pge-kraken-cis-implementation
+    spec:
+      containers:
+        - name: app
+          image: pge-kraken-cis-implementation:latest
+          ports:
+            - containerPort: 8080
