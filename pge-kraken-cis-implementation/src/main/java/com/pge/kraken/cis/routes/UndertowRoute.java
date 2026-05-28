@@ -11,7 +11,7 @@ public class UndertowRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("undertow:http://:8080/health")
+        from("undertow:http://0.0.0.0:8080/health")
                 .routeId("undertow-health-route")
                 .process(exchange -> {
                     LOG.info("Health endpoint invoked");

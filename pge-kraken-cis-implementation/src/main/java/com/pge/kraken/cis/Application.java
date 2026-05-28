@@ -7,6 +7,8 @@ import com.pge.kraken.cis.routes.HESOnDemandReadRoute;
 import com.pge.kraken.cis.routes.KafkaConsumerRoute;
 import com.pge.kraken.cis.routes.RetryRoute;
 import com.pge.kraken.cis.routes.UndertowRoute;
+import com.pge.kraken.cis.routes.FileListner.MDMEvents.EventsFTPListner;
+
 import org.apache.camel.main.Main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,7 @@ public class Application {
         main.configure().addRoutesBuilder(new UndertowRoute());
         main.configure().addRoutesBuilder(new KafkaConsumerRoute());
         main.configure().addRoutesBuilder(new HESOnDemandReadRoute());
+        main.configure().addRoutesBuilder(new EventsFTPListner());
         main.configure().addRoutesBuilder(new AuditRoute());
         main.configure().addRoutesBuilder(new DLQRoute());
         main.configure().addRoutesBuilder(new RetryRoute());

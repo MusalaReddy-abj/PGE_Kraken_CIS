@@ -13,7 +13,7 @@ public class HESOnDemandReadRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("undertow:http://:8080/v1/ondemandread")
+        from("undertow:http://0.0.0.0:8080/v1/ondemandread")
                 .routeId("hes-resource-route")
                 .process(exchange -> {
                     var correlationIds = TraceUtil.populateCorrelationHeaders(exchange);

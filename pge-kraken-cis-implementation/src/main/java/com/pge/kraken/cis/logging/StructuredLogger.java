@@ -65,6 +65,16 @@ public final class StructuredLogger {
     }
 
     public static void error(
+            Exchange exchange,
+            String status,
+            String message) {
+
+        LOG.error(
+                buildLogMessage(exchange, status, message)
+        );
+    }
+
+    public static void error(
             String status,
             String message,
             Exception exception) {
@@ -73,6 +83,25 @@ public final class StructuredLogger {
                 buildLogMessage(status, message)
                         + " error=" + exception.getMessage(),
                 exception
+        );
+    }
+
+    public static void error(
+            String status,
+            String message) {
+
+        LOG.error(
+                buildLogMessage(status, message)
+        );
+    }
+
+    private static String buildLogMessage(
+            String status,
+            String message) {
+        return String.format(
+                "status=%s message=%s",
+                safeValue(status),
+                safeValue(message)
         );
     }
 
