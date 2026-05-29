@@ -12,7 +12,7 @@ public class UndertowRoute extends RouteBuilder {
     @Override
     public void configure() {
         from("undertow:http://0.0.0.0:8080?matchOnUriPrefix=true")
-                .routeId("undertow-health-route")
+                .routeId("undertow-http-listener")
                 .choice()
                     .when(header("CamelHttpPath").isEqualTo("/health"))
                         .process(exchange -> {
@@ -21,8 +21,12 @@ public class UndertowRoute extends RouteBuilder {
                         })
                         .setBody(constant("Apache Camel + Undertow is running"))
                         .setHeader("Content-Type", constant("text/plain"))
+                    .when(header("CamelHttpPath").isEqualTo("/v1/ondemandread"))
+                        .to("direct:hes-http-request")
                     .otherwise()
-                        .stop()
+                        .setHeader("Content-Type", constant("text/plain"))
+                        .setBody(constant("Not Found"))
+                        .setHeader("CamelHttpResponseCode", constant(404))
                 .end();
     }
 }
