@@ -16,6 +16,7 @@ public class KafkaPropertiesConfig {
     private String consumerGroupId;
     private String deviceEventsTopic;
     private String deviceEventsDlqTopic;
+    private String rcdcHesResponseTopic;
 
     public static KafkaPropertiesConfig fromProperties() {
         Properties props = new Properties();
@@ -32,6 +33,9 @@ public class KafkaPropertiesConfig {
         cfg.consumerGroupId = props.getProperty("kafka.consumer.group.id", "cis-consumer-group");
         cfg.deviceEventsTopic = props.getProperty("kafka.device.events.topic", "cis.device-events");
         cfg.deviceEventsDlqTopic = props.getProperty("kafka.device.events.dlq.topic", "cis.device-events.dlq");
+        cfg.rcdcHesResponseTopic = props.getProperty(
+                "kafka.rcdc.hes.response.topic",
+                "pge.hes.connect.disconnect.response");
         return cfg;
     }
 }

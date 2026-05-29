@@ -8,6 +8,8 @@ import com.pge.kraken.cis.routes.KafkaConsumerRoute;
 import com.pge.kraken.cis.routes.RetryRoute;
 import com.pge.kraken.cis.routes.UndertowRoute;
 import com.pge.kraken.cis.routes.FileListner.MDMEvents.EventsFTPListner;
+import com.pge.kraken.cis.routes.HTTPListner.RemoteConnectDisConnect.RCDCHESResponseRoute;
+import com.pge.kraken.cis.routes.HTTPListner.RemoteConnectDisConnect.RemoteConnectDisConnectRoute;
 
 import org.apache.camel.main.Main;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class Application {
         main.configure().addRoutesBuilder(new KafkaConsumerRoute());
         main.configure().addRoutesBuilder(new HESOnDemandReadRoute());
         main.configure().addRoutesBuilder(new EventsFTPListner());
+        main.configure().addRoutesBuilder(new RemoteConnectDisConnectRoute());
+        main.configure().addRoutesBuilder(new RCDCHESResponseRoute());
         main.configure().addRoutesBuilder(new AuditRoute());
         main.configure().addRoutesBuilder(new DLQRoute());
         main.configure().addRoutesBuilder(new RetryRoute());
@@ -33,5 +37,7 @@ public class Application {
 
         LOG.info("Starting Camel runtime");
         main.run(args);
+
+      
     }
 }
