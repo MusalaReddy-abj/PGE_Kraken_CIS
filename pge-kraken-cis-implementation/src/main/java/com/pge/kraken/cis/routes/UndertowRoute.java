@@ -11,13 +11,18 @@ public class UndertowRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        from("undertow:http://0.0.0.0:8080/health")
+        from("undertow:http://0.0.0.0:8080?matchOnUriPrefix=true")
                 .routeId("undertow-health-route")
-                .process(exchange -> {
-                    LOG.info("Health endpoint invoked");
-                    StructuredLogger.info(exchange, "HEALTH_ENDPOINT_REQUEST", "Health endpoint request received");
-                })
-                .setBody(constant("Apache Camel + Undertow is running"))
-                .setHeader("Content-Type", constant("text/plain"));
+                .choice()
+                    .when(header("CamelHttpPath").isEqualTo("/health"))
+                        .process(exchange -> {
+                            LOG.info("Health endpoint invoked");
+                            StructuredLogger.info(exchange, "HEALTH_ENDPOINT_REQUEST", "Health endpoint request received");
+                        })
+                        .setBody(constant("Apache Camel + Undertow is running"))
+                        .setHeader("Content-Type", constant("text/plain"))
+                    .otherwise()
+                        .stop()
+                .end();
     }
 }

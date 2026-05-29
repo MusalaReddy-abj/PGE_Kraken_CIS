@@ -5,6 +5,7 @@ import com.pge.kraken.cis.routes.AuditRoute;
 import com.pge.kraken.cis.routes.DLQRoute;
 import com.pge.kraken.cis.routes.HESOnDemandReadRoute;
 import com.pge.kraken.cis.routes.KafkaConsumerRoute;
+import com.pge.kraken.cis.routes.KafkaListner.EventKafkaListner;
 import com.pge.kraken.cis.routes.RetryRoute;
 import com.pge.kraken.cis.routes.UndertowRoute;
 import com.pge.kraken.cis.routes.FileListner.MDMEvents.EventsFTPListner;
@@ -24,6 +25,7 @@ public class Application {
         LOG.info("Registering Camel routes");
         main.configure().addRoutesBuilder(new UndertowRoute());
         main.configure().addRoutesBuilder(new KafkaConsumerRoute());
+        main.configure().addRoutesBuilder(new EventKafkaListner());
         main.configure().addRoutesBuilder(new HESOnDemandReadRoute());
         main.configure().addRoutesBuilder(new EventsFTPListner());
         main.configure().addRoutesBuilder(new AuditRoute());

@@ -15,7 +15,7 @@ public class EventsFTPListner extends RouteBuilder {
         FtpConfig cfg = FtpConfig.fromProperties();
 
         String ftpUri = String.format(
-            "ftp://%s@%s:%d/%s?password=%s&binary=true&passiveMode=true&move=MDMEvents&include=.*\\.xml&delay=%d",
+            "ftp://%s@%s:%d/%s?password=%s&binary=true&passiveMode=true&move=ArcheiveFolder&include=.*\\.xml&delay=%d",
             cfg.getUsername(), cfg.getHost(), cfg.getPort(), cfg.getHesEventsRemoteDir(), cfg.getPassword(), cfg.getPollDelay());
 
         from(ftpUri)
