@@ -58,6 +58,7 @@ public class EventXmlProcessor implements Processor {
         List<D1DeviceEventSeeder> events = new ArrayList<>();
 
         NodeList eventNodes = EventMessageMapper.extractEventNodes(xmlContent);
+       
         StructuredLogger.info(exchange, "XML_EVENT_NODES_FOUND",
                 String.format("Found %d XML event nodes to process", eventNodes.getLength()));
 

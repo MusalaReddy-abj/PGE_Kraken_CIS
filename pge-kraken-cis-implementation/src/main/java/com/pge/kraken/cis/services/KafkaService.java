@@ -31,7 +31,8 @@ public class KafkaService {
 
         try {
             Map<String, Object> headers = buildKafkaHeaders(message, exchange);
-            template.sendBodyAndHeaders("kafka:" + topic, message, headers);
+            String kafkaEndpoint = String.format("kafka:%s?brokers=%s", topic, kafkaConfig.getBrokers());
+            template.sendBodyAndHeaders(kafkaEndpoint, message, headers);
 
             StructuredLogger.info(exchange, "MESSAGE_SENT_TO_KAFKA",
                     String.format("Message sent to Kafka topic: %s", topic));
@@ -45,7 +46,8 @@ public class KafkaService {
 
             try {
                 Map<String, Object> headers = buildKafkaHeaders(message, exchange);
-                template.sendBodyAndHeaders("kafka:" + dlqTopic, message, headers);
+                String dlqEndpoint = String.format("kafka:%s?brokers=%s", dlqTopic, kafkaConfig.getBrokers());
+                template.sendBodyAndHeaders(dlqEndpoint, message, headers);
                 StructuredLogger.warn(exchange, "KAFKA_DLQ_ROUTED",
                         String.format("Failed message routed to DLQ topic: %s", dlqTopic));
 
