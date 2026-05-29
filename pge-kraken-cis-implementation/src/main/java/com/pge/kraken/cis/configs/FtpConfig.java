@@ -1,12 +1,16 @@
 package com.pge.kraken.cis.configs;
 
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.Properties;
 
 @Data
 public class FtpConfig {
+
+    private static final Logger LOG = LoggerFactory.getLogger(FtpConfig.class);
 
     private String host;
     private int port;
@@ -22,7 +26,7 @@ public class FtpConfig {
                 props.load(in);
             }
         } catch (Exception e) {
-            // swallow - defaults will be used
+            LOG.warn("Failed to load FTP configuration from application.properties; using defaults", e);
         }
 
         FtpConfig cfg = new FtpConfig();

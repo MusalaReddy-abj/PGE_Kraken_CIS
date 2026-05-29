@@ -3,16 +3,15 @@ package com.pge.kraken.cis.routes.FileListner.MDMEvents;
 import com.pge.kraken.cis.configs.FtpConfig;
 import com.pge.kraken.cis.logging.StructuredLogger;
 import com.pge.kraken.cis.processors.EventXmlProcessor;
+import com.pge.kraken.cis.processors.FtpExceptionProcessor;
 import org.apache.camel.builder.RouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class EventsFTPListner extends RouteBuilder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EventsFTPListner.class);
-
     @Override
     public void configure() throws Exception {
+        configureErrorHandling();
+
         FtpConfig cfg = FtpConfig.fromProperties();
 
         String ftpUri = String.format(
@@ -28,5 +27,12 @@ public class EventsFTPListner extends RouteBuilder {
                 })
                 .process(new EventXmlProcessor())
                 .to("direct:processFtpFile");
+    }
+
+    private void configureErrorHandling() {
+        onException(Exception.class)
+                .handled(true)
+                .routeId("ftp-listener-exception-handler")
+                .process(new FtpExceptionProcessor());
     }
 }

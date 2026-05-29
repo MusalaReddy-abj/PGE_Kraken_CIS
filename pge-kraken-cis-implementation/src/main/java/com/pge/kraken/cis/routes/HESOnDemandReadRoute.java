@@ -1,8 +1,10 @@
 package com.pge.kraken.cis.routes;
 
+import com.pge.kraken.cis.exceptions.ValidationException;
 import com.pge.kraken.cis.logging.StructuredLogger;
 import com.pge.kraken.cis.services.HESService;
 import com.pge.kraken.cis.utils.TraceUtil;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ public class HESOnDemandReadRoute extends RouteBuilder {
 
     @Override
     public void configure() {
+    
         from("undertow:http://0.0.0.0:8080/v1/ondemandread")
                 .routeId("hes-resource-route")
                 .process(exchange -> {
@@ -28,4 +31,6 @@ public class HESOnDemandReadRoute extends RouteBuilder {
                     LOG.info("HES resource response prepared");
                 });
     }
+
+   
 }
