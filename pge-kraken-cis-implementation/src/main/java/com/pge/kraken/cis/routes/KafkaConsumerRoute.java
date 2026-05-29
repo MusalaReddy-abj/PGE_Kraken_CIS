@@ -19,12 +19,6 @@ public class KafkaConsumerRoute extends RouteBuilder {
     public void configure() {
         LOG.info("Configuring Kafka consumer route");
 
-        errorHandler(deadLetterChannel("direct:dlq")
-                .useOriginalMessage()
-                .maximumRedeliveries(3)
-                .redeliveryDelay(1000)
-                .onPrepareFailure(exchange -> exchange.getMessage().setBody("Kafka failure handled")));
-
         fromF("kafka:%s?brokers=%s&groupId=%s&autoOffsetReset=earliest", CONSUMER_TOPIC, BROKERS, GROUP_ID)
                 .routeId("kafka-consumer-route")
                 .process(exchange -> {

@@ -17,14 +17,16 @@ public class RequestValidationProcessor implements Processor {
         if (body == null) {
             StructuredLogger.warn(exchange, "VALIDATION_FAILED", "Request body is required");
             LOG.warn("Request validation failed: request body is required");
-            throw new ValidationException("Request body is required");
+            throw new ValidationException("Request body is required")
+                    .withContext(exchange);
         }
 
         String payload = body.toString().trim();
         if (payload.isEmpty()) {
             StructuredLogger.warn(exchange, "VALIDATION_FAILED", "Request payload cannot be empty");
             LOG.warn("Request validation failed: request payload cannot be empty");
-            throw new ValidationException("Request payload cannot be empty");
+            throw new ValidationException("Request payload cannot be empty")
+                    .withContext(exchange);
         }
 
         exchange.getIn().setHeader("validated", true);
